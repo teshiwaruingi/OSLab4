@@ -1,35 +1,30 @@
-#define _GNU_SOURCE
-#include<stdio.h>
-#include<unistd.h>
-#include<stdlib.h>
-#include<errno.h>
+/* IMPLEMENT ME: Declare your functions here */
+int add (int a, int b);
+int subtract(int a, int b);
+int multiply(int a, int b);
+int divide(int a, int b);
+int exitProgram(int a, int b);
 
-#include "util.h"
-#include "process.h"
+int (*operations[5])(int a, int b)  = {add, subtract, multiply, divide, exitProgram};
 
-/**
- * Returns an array of process that are parsed from
- * the input file descriptor passed as argument
- * CAUTION: You need to free up the space that is allocated
- * by this function
- */
-Process *parse_file(FILE * f)
+int main (void)
 {
-	size_t s = 0;
-	char *headers = NULL;
-	size_t line_len = 0;
-	//ignore the headers as we don't need them for storing data
-	line_len = getline(&headers, &line_len, f);
-	free(headers);
-
-	//allocate process[] on heap and read all the data
-	Process *pptr = (Process *) malloc(P_SIZE * sizeof(Process));
-	while (!feof(f)) {
-		int t_pid, t_arrival_time, t_priority;
-		fscanf(f, "%d,%d,%d\n", &t_pid, &t_arrival_time, &t_priority);
-		process_ctr(&pptr[s], t_pid, t_arrival_time, t_priority);
-		s++;
-	}
-
-	return pptr;
+  int number;
+	/* IMPLEMENT ME: Insert your algorithm here */
+  while(number != 4) {
+  printf("Operand 'a':6|Operand 'b': 3\n");
+  printf("Specify the operation to perform (0 : add | 1 : subtract | 2 : Multiply | 3 : divide | 4 : exit):");
+  scanf("%d", &number);
+  int result = operations[number](6, 3);
+  printf("X = %d\n", result);
+  }
+  
+	return 0;
 }
+
+/* IMPLEMENT ME: Define your functions here */
+int add (int a, int b) { printf ("Adding 'a' and 'b'\n"); return a + b; }
+int subtract (int a, int b) { printf ("Subtracting 'a' and 'b'\n"); return a - b; }
+int multiply (int a, int b) { printf ("Multiplying 'a' and 'b'\n"); return a * b; }
+int divide (int a, int b) { printf ("Dividing 'a' and 'b'\n"); return a / b; }
+int exitProgram(int a, int b) { exit(0); }
